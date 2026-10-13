@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Pokedex</title>
+        <style>
+            body {
+                background: black;
+                color: white;
+                text-align: center;
+            }
+
+            .poke {
+                background: black;
+                border-radius: 12px;
+                border: 2px solid red;
+                margin: 100px;
+                padding: 50px;  
+            }
+
+            img {
+                width: 100px;
+                height: 100px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <p>Bienvenidos a mi pokedex</p>
+        <input type="text" id="busqueda" placeholder="Mewtwo">
+
+        {% for p in pokemon %}
+        <div class="poke" data-pokemonsin="{{ p.name }}">
+            <img src="{{ p.imagen }}" alt="{{ p.name }}">
+            <h3>No. {{ p.id }} - {{ p.name | capitalize}}</h3>
+        </div>
+        {% endfor %}
+
+        <!-- Script para buscar in place (sin enter) -->
+        <script>
+            // Obtengo el texto que hay en la barra de busqueda
+            const search = document.getElementById("busqueda");
+            // Obtengo todos los pokemones en .poke
+            const pokes = document.querySelectorAll(".poke");
+
+            // De search creo un evento de escucha para el input
+            search.addEventListener("input", function () {
+                // El texto en input se toma y se convierte todo a minusculas
+                const text = search.value.toLowerCase();
+               
+                // Por cada pokemon encontrado en .poke
+                pokes.forEach(function (poke) {
+                    // Tomo su nombre de data-pokemonsin
+                    const name = poke.dataset.pokemonsin;
+
+                    // Cada tarjeta tiene un nombre de pokemon, esta condicional
+                    // muestra las que contengan en el nombre el texto del input
+                    // true/false ? <muestra esto si es true> : <esto si es false>
+                    poke.style.display = name.includes(text) ? "" : "none";
+                });
+            });
+        </script>
+
+
+    </body>
+</html>
